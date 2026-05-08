@@ -1,0 +1,22 @@
+# Environment
+.env
+*.env
+
+# Virtualenv (outer one)
+venv/
+.venv/
+env/
+
+# Bytecode
+__pycache__/
+*.pyc
+
+# OS/Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Django
+media/
+staticfiles/
+db.sqlite3
