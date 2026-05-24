@@ -141,7 +141,7 @@ const theme = createTheme({
     MuiDrawer: {
       styleOverrides: {
         paper: ({ theme }) => ({
-          background: alpha(theme.palette.primary.dark, 0.7),
+          background: alpha(theme.palette.primary.dark, 0.50),
           backdropFilter: 'blur(18px)',
           borderRight: `1px solid ${alpha(theme.palette.primary.light, 0.3)}`,
         }),

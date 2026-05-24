@@ -61,7 +61,7 @@ function TenantModal({ open, onClose, editData, onSuccess }) {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ pb: 1 }}>
+      <DialogTitle sx={{ pb: 1 , bgcolor:'#0B2E33' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Box sx={{ width: 38, height: 38, borderRadius: '10px', bgcolor: 'rgba(229,57,53,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -76,7 +76,7 @@ function TenantModal({ open, onClose, editData, onSuccess }) {
         </Box>
       </DialogTitle>
       <Divider sx={{ borderColor: 'rgba(229,57,53,0.15)' }} />
-      <DialogContent sx={{ pt: 3 }}>
+      <DialogContent sx={{ pt: 3 , bgcolor:'#0B2E33' }}>
         <Grid container spacing={2.5}>
           <Grid item xs={12} sm={6}>
             <TextField label="Username *" name="username" value={form.username} onChange={handleChange} fullWidth />
@@ -99,7 +99,7 @@ function TenantModal({ open, onClose, editData, onSuccess }) {
         </Grid>
       </DialogContent>
       <Divider sx={{ borderColor: 'rgba(255,255,255,0.05)' }} />
-      <DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
+      <DialogActions sx={{ px: 3, py: 2, gap: 1 , bgcolor:'#0B2E33'  }}>
         <Button onClick={onClose} variant="outlined" sx={{ borderColor: 'rgba(255,255,255,0.15)', color: '#9E9E9E' }}>Cancel</Button>
         <Button onClick={handleSubmit} variant="contained" color="primary" disabled={loading} sx={{ minWidth: 120 }}>
           {loading ? <CircularProgress size={20} color="inherit" /> : editData ? 'Save Changes' : 'Create Tenant'}

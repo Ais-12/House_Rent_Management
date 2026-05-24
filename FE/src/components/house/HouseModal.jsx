@@ -104,8 +104,8 @@ export default function HouseModal({ open, onClose, editData, onSuccess }) {
   }
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle sx={{ pb: 1 }}>
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth >
+      <DialogTitle sx={{ pb: 1 , bgcolor:'#0B2E33' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Box sx={{
@@ -132,7 +132,7 @@ export default function HouseModal({ open, onClose, editData, onSuccess }) {
 
       <Divider sx={{ borderColor: 'rgba(229,57,53,0.15)' }} />
 
-      <DialogContent sx={{ pt: 3 }}>
+      <DialogContent sx={{ pt: 3 , bgcolor:'#0B2E33' }}>
         <Grid container spacing={2.5}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -267,7 +267,7 @@ export default function HouseModal({ open, onClose, editData, onSuccess }) {
 
       <Divider sx={{ borderColor: 'rgba(255,255,255,0.05)' }} />
 
-      <DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
+      <DialogActions sx={{ px: 3, py: 2, gap: 1, bgcolor:'#0B2E33' }}>
         <Button onClick={onClose} variant="outlined" sx={{ borderColor: 'rgba(255,255,255,0.15)', color: '#9E9E9E' }}>
           Cancel
         </Button>

@@ -1,6 +1,6 @@
 // src/components/houselog/HouseLogModal.jsx
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux' // Added useSelector
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Button, TextField, Grid, MenuItem, CircularProgress,
@@ -10,6 +10,7 @@ import { Receipt, Close, Bolt, Calculate } from '@mui/icons-material'
 import { toast } from 'react-toastify'
 import { createHouseLog, updateHouseLog } from '../../api/actions'
 import { addHouseLog, updateHouseLogInList } from '../../redux/slices/houseLogSlice'
+import dayjs from 'dayjs' // Added dayjs for sorting
 
 const EMPTY = {
   house: '',
@@ -21,6 +22,10 @@ const EMPTY = {
 
 export default function HouseLogModal({ open, onClose, editData, houses, onSuccess }) {
   const dispatch = useDispatch()
+  
+  // Access all logs from Redux to find the history
+  const { list: allLogs } = useSelector((s) => s.houseLog)
+
   const [form, setForm] = useState(EMPTY)
   const [loading, setLoading] = useState(false)
   const [calc, setCalc] = useState(null)
@@ -41,15 +46,39 @@ export default function HouseLogModal({ open, onClose, editData, houses, onSucce
     }
   }, [open, editData])
 
-  // Auto-fill previous_unit from house's last_current_unit when house changes
+  // --- FIXED LOGIC STARTS HERE ---
+  // Auto-fill previous_unit by searching the LOG HISTORY, not the house object
   useEffect(() => {
-    if (form.house && !editData) {
-      const house = houses.find((h) => h.id === Number(form.house) || h.id === form.house)
-      if (house) {
-        setForm((prev) => ({ ...prev, previous_unit: String(house.last_current_unit || 0) }))
+    // Only run in 'Add' mode (!editData) when a house is selected
+    if (form.house && !editData && allLogs) {
+      
+      // 1. Filter logs for the selected house
+      const houseLogs = allLogs.filter(log => log.house === form.house)
+
+      let previousVal = 0
+
+      if (houseLogs.length > 0) {
+        // 2. Sort logs by Date DESCENDING (Newest first)
+        const sortedLogs = houseLogs.sort((a, b) => {
+          return dayjs(b.created_at).valueOf() - dayjs(a.created_at).valueOf()
+        })
+
+        // 3. The log at index 0 is the most recent one
+        const lastLog = sortedLogs[0]
+        
+        // 4. Set previous unit to the CURRENT unit of the last log
+        previousVal = lastLog.current_month_unit
+      } else {
+        // 5. Fallback: If no logs exist, check house object or default to 0
+        const house = houses.find((h) => h.id === Number(form.house) || h.id === form.house)
+        previousVal = house ? (house.last_current_unit || 0) : 0
       }
+
+      setForm((prev) => ({ ...prev, previous_unit: String(previousVal) }))
     }
-  }, [form.house])
+  }, [form.house, allLogs, houses, editData]) // Dependencies
+  // --- FIXED LOGIC ENDS HERE ---
+
 
   // Auto calculate whenever values change
   useEffect(() => {
@@ -122,7 +151,7 @@ export default function HouseLogModal({ open, onClose, editData, houses, onSucce
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle sx={{ pb: 1 }}>
+      <DialogTitle sx={{ pb: 1 , bgcolor:'#0B2E33'  }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Box sx={{
@@ -147,7 +176,7 @@ export default function HouseLogModal({ open, onClose, editData, houses, onSucce
 
       <Divider sx={{ borderColor: 'rgba(229,57,53,0.15)' }} />
 
-      <DialogContent sx={{ pt: 3 }}>
+      <DialogContent sx={{ pt: 3  , bgcolor:'#0B2E33' }}>
         <Grid container spacing={2.5}>
           {/* House Select */}
           <Grid item xs={12} sm={6}>
@@ -275,7 +304,7 @@ export default function HouseLogModal({ open, onClose, editData, houses, onSucce
 
       <Divider sx={{ borderColor: 'rgba(255,255,255,0.05)' }} />
 
-      <DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
+      <DialogActions sx={{ px: 3, py: 2, gap: 1 , bgcolor:'#0B2E33'  }}>
         <Button onClick={onClose} variant="outlined" sx={{ borderColor: 'rgba(255,255,255,0.15)', color: '#9E9E9E' }}>
           Cancel
         </Button>
