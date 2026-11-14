@@ -1,8 +1,8 @@
 // src/api/apiUrls.js
 export const API_URLS = {
-  login: '/api/house/login/',
-  house: '/api/house/houses/',
-  houseLog: '/api/house/houselogs/',
-  user: '/api/house/user/',
-  tenant: '/api/house/tenant/',
+  login: '/house/login/',
+  house: '/house/houses/',
+  houseLog: '/house/houselogs/',
+  user: '/house/user/',
+  tenant: '/house/tenant/',
 }
